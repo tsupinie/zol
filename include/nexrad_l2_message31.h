@@ -2,8 +2,8 @@
 #include <string>
 #include <cstdint>
 
-#include "nexrad_l2_message.hxx"
-#include "nexrad_l2_message31_momrad.hxx"
+#include "nexrad_l2_message.h"
+#include "nexrad_l2_message31_momrad.h"
 
 #ifndef __NEXRAD_L2_MESSAGE31__
 #define __NEXRAD_L2_MESSAGE31__

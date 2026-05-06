@@ -2,7 +2,7 @@
 #include <vector>
 #include <sstream>
 
-#include "nexrad_l2_message.hxx"
+#include "nexrad_l2_message.h"
 
 #ifndef __NEXRAD_L2_CHUNK__
 #define __NEXRAD_L2_CHUNK__

@@ -1,7 +1,7 @@
 
-#include "nexrad_l2_message31_momrad.hxx"
-#include "bin_utils.hxx"
-#include "nexrad_internal.hxx"
+#include <nexrad_l2_message31_momrad.h>
+#include <bin_utils.h>
+#include <nexrad_internal.h>
 
 NexradL2Message31MomentRadial* NexradL2Message31MomentRadial::factory(std::istream& istream) {
     int start_of_msg_ptr = istream.tellg();

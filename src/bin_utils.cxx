@@ -1,5 +1,5 @@
 
-#include "bin_utils.hxx"
+#include <bin_utils.h>
 
 template <class T>
 T READ(std::istream& istream) {

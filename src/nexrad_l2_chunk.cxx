@@ -4,9 +4,9 @@
 
 #include <bzlib.h>
 
-#include "nexrad_l2_chunk.hxx"
-#include "nexrad_l2_message5.hxx"
-#include "bin_utils.hxx"
+#include <nexrad_l2_chunk.h>
+#include <nexrad_l2_message5.h>
+#include <bin_utils.h>
 
 
 void decompress_bz2(std::stringstream& instream, std::stringstream& outstream) {

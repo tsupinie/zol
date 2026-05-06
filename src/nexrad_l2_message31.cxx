@@ -1,7 +1,7 @@
 
-#include "nexrad_l2_message31.hxx"
-#include "bin_utils.hxx"
-#include "nexrad_internal.hxx"
+#include <nexrad_l2_message31.h>
+#include <bin_utils.h>
+#include <nexrad_internal.h>
 
 NexradL2Message31::~NexradL2Message31() {
     std::map<std::string, NexradL2Message31MomentRadial*>::iterator it;

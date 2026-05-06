@@ -5,7 +5,7 @@
 #include <map>
 #include <iostream>
 
-#include "nexrad_l2_header.hxx"
+#include "nexrad_l2_header.h"
 
 #ifndef __NEXRAD_L2_MESSAGE__
 #define __NEXRAD_L2_MESSAGE__

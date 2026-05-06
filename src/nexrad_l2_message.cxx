@@ -1,10 +1,10 @@
 
 #include <iostream>
 
-#include "nexrad_l2_message31.hxx"
-#include "nexrad_l2_message5.hxx"
-#include "nexrad_l2_header.hxx"
-#include "nexrad_internal.hxx"
+#include <nexrad_l2_message31.h>
+#include <nexrad_l2_message5.h>
+#include <nexrad_l2_header.h>
+#include <nexrad_internal.h>
 
 
 NexradL2Message::NexradL2Message() {
