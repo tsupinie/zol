@@ -10,3 +10,5 @@ file(GLOB SOURCES src/*.cxx)
 include_directories(include)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
+
+add_subdirectory(tests)
