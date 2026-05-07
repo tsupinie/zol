@@ -39,8 +39,10 @@ class NexradL2Message0: public NexradL2MessageDummy {
 
 class NexradL2Message2: public NexradL2MessageDummy {};
 class NexradL2Message3: public NexradL2MessageDummy {};
+class NexradL2Message8: public NexradL2MessageDummy {};
 class NexradL2Message13: public NexradL2MessageDummy {};
 class NexradL2Message15: public NexradL2MessageDummy {};
 class NexradL2Message18: public NexradL2MessageDummy {};
+class NexradL2Message32: public NexradL2MessageDummy {};
 
 #endif

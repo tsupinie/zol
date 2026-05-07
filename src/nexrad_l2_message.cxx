@@ -35,6 +35,10 @@ NexradL2Message* NexradL2Message::factory(std::istream& istream) {
         msg = new NexradL2Message5();
         istream >> *static_cast<NexradL2Message5*>(msg);
     }
+    else if (header->get_message_type() == 8) {
+        msg = new NexradL2Message8();
+        istream >> *static_cast<NexradL2Message8*>(msg);
+    }
     else if (header->get_message_type() == 13) {
         msg = new NexradL2Message13();
         istream >> *static_cast<NexradL2Message13*>(msg);
@@ -50,6 +54,10 @@ NexradL2Message* NexradL2Message::factory(std::istream& istream) {
     else if (header->get_message_type() == 31) {
         msg = new NexradL2Message31();
         istream >> *static_cast<NexradL2Message31*>(msg);
+    }
+    else if (header->get_message_type() == 32) {
+        msg = new NexradL2Message32();
+        istream >> *static_cast<NexradL2Message32*>(msg);
     }
     else {
         throw "Unknown message_type " + std::to_string(header->get_message_type());
