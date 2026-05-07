@@ -9,7 +9,7 @@
 #include <bin_utils.h>
 
 
-void decompress_bz2(std::stringstream& instream, std::stringstream& outstream) {
+void decompress_bz2(std::istream& instream, std::stringstream& outstream) {
     const size_t bufinsize = 256;
     char buffer_in[bufinsize] = { 0 };
     const size_t bufoutsize = 256;
@@ -62,7 +62,7 @@ NexradL2Chunk::~NexradL2Chunk() {
 
 }
 
-NexradL2Chunk* NexradL2Chunk::from_binary(std::stringstream& instream, char chunk_type) {
+NexradL2Chunk* NexradL2Chunk::from_binary(std::istream& instream, char chunk_type) {
     std::stringstream decompressed;
 
     std::string tape_filename, radar_id;
