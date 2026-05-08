@@ -11,6 +11,16 @@ NexradL2Message31::~NexradL2Message31() {
     this->moment_radials.clear();
 }
 
+std::vector<float> NexradL2Message31::get_moment_data(const std::string& moment) const { 
+    auto search = this->moment_radials.find(moment);
+
+    if (search == this->moment_radials.end()) {
+        throw std::string("No moment '") + moment + "' found.";
+    }
+
+    return search->second->get_moment_data();
+}
+
 std::string NexradL2Message31::dump() {
     std::string objstr = "NexradL2Message31 {\n";
 

@@ -13,6 +13,10 @@ class NexradL2Message31 : public NexradL2Message {
         ~NexradL2Message31();
 
         friend std::istream& operator>>(std::istream&, NexradL2Message31&);
+
+        std::vector<float> get_moment_data(const std::string&) const;
+        size_t get_n_gates() const { return this->radial_length; }
+
         std::string dump();
 
     private:

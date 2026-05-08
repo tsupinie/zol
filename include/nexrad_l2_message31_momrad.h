@@ -13,8 +13,11 @@ class NexradL2Message31MomentRadial {
         virtual std::string dump() = 0;
 
         std::string get_moment_name() const { return this->moment_name; }
+        std::vector<float> get_moment_data() const { return this->get_scaled_moment_data(this->offset, this->scale); };
 
     protected:
+        virtual std::vector<float> get_scaled_moment_data(const float, const float) const = 0;
+
         std::string moment_name;
         uint16_t num_gates;
         uint16_t range_to_first_gate;
@@ -36,6 +39,8 @@ class NexradL2Message31MomentRadial_ : public NexradL2Message31MomentRadial {
         std::string dump();
 
     protected:
+        std::vector<float> get_scaled_moment_data(const float, const float) const;
+
         std::vector<T> moment_data;
 };
 

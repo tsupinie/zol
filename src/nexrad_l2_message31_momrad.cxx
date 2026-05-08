@@ -75,5 +75,16 @@ std::istream& operator>>(std::istream& istream, NexradL2Message31MomentRadial_<T
     return istream;
 }
 
+template <class T>
+std::vector<float> NexradL2Message31MomentRadial_<T>::get_scaled_moment_data(const float offset, const float scale) const {
+    std::vector<float> data(this->moment_data.size());
+
+    for (size_t i = 0 ; i < data.size() ; i++) {
+        data[i] = (this->moment_data[i] - offset) / scale;
+    }
+
+    return data;
+}
+
 template class NexradL2Message31MomentRadial_<uint8_t>;
 template class NexradL2Message31MomentRadial_<uint16_t>;
