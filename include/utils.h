@@ -10,6 +10,10 @@ T READ(std::istream&);
 std::string READ(std::istream&, int);
 
 template <class T>
-std::unique_ptr<T> make_unique_ptr_from_stream(std::istream& istream);
+std::unique_ptr<T> make_unique_ptr_from_stream(std::istream& istream) {
+    auto ptr = std::make_unique<T>();
+    istream >> *ptr;
+    return ptr;
+}
 
 #endif

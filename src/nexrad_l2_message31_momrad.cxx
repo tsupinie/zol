@@ -14,14 +14,10 @@ std::unique_ptr<NexradL2Message31MomentRadial> NexradL2Message31MomentRadial::fa
     std::unique_ptr<NexradL2Message31MomentRadial> mom_rad;
 
     if (word_size == 8) {
-        auto mom_rad_ = std::make_unique<NexradL2Message31MomentRadial_<uint8_t>>();
-        istream >> *mom_rad_;
-        mom_rad = std::move(mom_rad_);
+        mom_rad = make_unique_ptr_from_stream<NexradL2Message31MomentRadial_<uint8_t>>(istream);
     }
     else if (word_size == 16) {
-        auto mom_rad_ = std::make_unique<NexradL2Message31MomentRadial_<uint16_t>>();
-        istream >> *mom_rad_;
-        mom_rad = std::move(mom_rad_);
+        mom_rad = make_unique_ptr_from_stream<NexradL2Message31MomentRadial_<uint16_t>>(istream);
     }
     else {
         throw "Unknown moment radial word size: " + std::to_string(word_size);
