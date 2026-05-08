@@ -6,6 +6,7 @@
 
 #include <nexrad_l2_chunk.h>
 #include <nexrad_l2_message5.h>
+#include <nexrad_l2_message31.h>
 #include <bin_utils.h>
 
 
@@ -54,22 +55,23 @@ void decompress_bz2(std::istream& instream, std::stringstream& outstream) {
     }
 }
 
-NexradL2Chunk::NexradL2Chunk(std::vector<NexradL2Message*> messages) {
-    this->messages = messages;
-}
-
-NexradL2Chunk::~NexradL2Chunk() {
-
-}
-
-NexradL2Chunk* NexradL2Chunk::from_binary(std::istream& instream, char chunk_type) {
+std::vector<NexradL2Message*> message_list_from_stream(std::istream& instream, bool should_be_start_chunk) {
     std::stringstream decompressed;
 
     std::string tape_filename, radar_id;
     uint32_t volume_julian_date, volume_ms_since_midnight;
     int32_t rec_size;
 
-    if (chunk_type == 'S') {
+    size_t start_ptr = instream.tellg();
+    const bool is_start_chunk = READ(instream, 4) == "AR2V";
+    instream.seekg(start_ptr);
+
+    if (should_be_start_chunk != is_start_chunk) {
+        if (is_start_chunk) throw std::string("It looks like this is a header chunk, but a volume chunk was requested");
+        else throw std::string("It looks like this is a volume chunk, but a header chunk was requested");
+    }
+
+    if (should_be_start_chunk) {
         tape_filename = READ(instream, 12);
         volume_julian_date = READ<uint32_t>(instream);
         volume_ms_since_midnight = READ<uint32_t>(instream);
@@ -106,10 +108,14 @@ NexradL2Chunk* NexradL2Chunk::from_binary(std::istream& instream, char chunk_typ
         cur_pos = decompressed.tellg();
     }
 
-    return new NexradL2Chunk(messages);
+    return messages;
 }
 
-std::vector<float> NexradL2Chunk::get_volume_elevation_angles() const {
+NexradL2VolumeHeaderChunk NexradL2VolumeHeaderChunk::from_binary(std::istream& instream) {
+    return NexradL2VolumeHeaderChunk(message_list_from_stream(instream, true));
+}
+
+std::vector<float> NexradL2VolumeHeaderChunk::get_volume_elevation_angles() const {
     NexradL2Message* msg = NULL;
     for (NexradL2Message* msg_ : this->messages) {
         if (msg_->get_message_type() == 5) {
@@ -122,4 +128,30 @@ std::vector<float> NexradL2Chunk::get_volume_elevation_angles() const {
     }
 
     return static_cast<NexradL2Message5*>(msg)->get_elevation_angles();
+}
+
+NexradL2VolumeChunk NexradL2VolumeChunk::from_binary(std::istream& instream) {
+    return NexradL2VolumeChunk(message_list_from_stream(instream, false));
+}
+
+std::vector<float> NexradL2VolumeChunk::get_moment_data(const std::string& moment) const {
+    size_t n_gates = 0;
+    for (NexradL2Message* msg: this->messages) {
+        if (msg->get_message_type() == 31) {
+            n_gates += static_cast<NexradL2Message31*>(msg)->get_n_gates();
+        }
+    }
+
+    std::vector<float> data(n_gates);
+    size_t idata = 0;
+
+    for (NexradL2Message* msg: this->messages) {
+        if (msg->get_message_type() == 31) {
+            for (float dat : static_cast<NexradL2Message31*>(msg)->get_moment_data(moment)) {
+                data[idata++] = dat;
+            }
+        }
+    }
+
+    return data;
 }
