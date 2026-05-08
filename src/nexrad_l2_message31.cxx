@@ -3,14 +3,6 @@
 #include <bin_utils.h>
 #include <nexrad_internal.h>
 
-NexradL2Message31::~NexradL2Message31() {
-    std::map<std::string, NexradL2Message31MomentRadial*>::iterator it;
-    for (auto const& item : this->moment_radials) {
-        delete item.second;
-    }
-    this->moment_radials.clear();
-}
-
 std::vector<float> NexradL2Message31::get_moment_data(const std::string& moment) const { 
     auto search = this->moment_radials.find(moment);
 
@@ -166,8 +158,8 @@ std::istream& operator>>(std::istream& istream, NexradL2Message31& msg) {
         if (mom_ptr == 0) continue;
 
         istream.seekg(start_of_msg_ptr + mom_ptr);
-        NexradL2Message31MomentRadial* moment_radial = NexradL2Message31MomentRadial::factory(istream);
-        msg.moment_radials[moment_radial->get_moment_name()] = moment_radial;
+        std::unique_ptr<NexradL2Message31MomentRadial> moment_radial = NexradL2Message31MomentRadial::factory(istream);
+        msg.moment_radials[moment_radial->get_moment_name()] = std::move(moment_radial);
     }
 
     return istream;

@@ -3,7 +3,7 @@
 #include <bin_utils.h>
 #include <nexrad_internal.h>
 
-NexradL2Message31MomentRadial* NexradL2Message31MomentRadial::factory(std::istream& istream) {
+std::unique_ptr<NexradL2Message31MomentRadial> NexradL2Message31MomentRadial::factory(std::istream& istream) {
     int start_of_msg_ptr = istream.tellg();
     uint8_t word_size;
 
@@ -11,15 +11,17 @@ NexradL2Message31MomentRadial* NexradL2Message31MomentRadial::factory(std::istre
     word_size = READ<uint8_t>(istream);
     istream.seekg(start_of_msg_ptr);
 
-    NexradL2Message31MomentRadial* mom_rad;
+    std::unique_ptr<NexradL2Message31MomentRadial> mom_rad;
 
     if (word_size == 8) {
-        mom_rad = new NexradL2Message31MomentRadial_<uint8_t>();
-        istream >> *static_cast<NexradL2Message31MomentRadial_<uint8_t>*>(mom_rad);
+        auto mom_rad_ = std::make_unique<NexradL2Message31MomentRadial_<uint8_t>>();
+        istream >> *mom_rad_;
+        mom_rad = std::move(mom_rad_);
     }
     else if (word_size == 16) {
-        mom_rad = new NexradL2Message31MomentRadial_<uint16_t>();
-        istream >> *static_cast<NexradL2Message31MomentRadial_<uint16_t>*>(mom_rad);
+        auto mom_rad_ = std::make_unique<NexradL2Message31MomentRadial_<uint16_t>>();
+        istream >> *mom_rad_;
+        mom_rad = std::move(mom_rad_);
     }
     else {
         throw "Unknown moment radial word size: " + std::to_string(word_size);
@@ -76,11 +78,11 @@ std::istream& operator>>(std::istream& istream, NexradL2Message31MomentRadial_<T
 }
 
 template <class T>
-std::vector<float> NexradL2Message31MomentRadial_<T>::get_scaled_moment_data(const float offset, const float scale) const {
+std::vector<float> NexradL2Message31MomentRadial_<T>::get_moment_data() const {
     std::vector<float> data(this->moment_data.size());
 
     for (size_t i = 0 ; i < data.size() ; i++) {
-        data[i] = (this->moment_data[i] - offset) / scale;
+        data[i] = (this->moment_data[i] - this->offset) / this->scale;
     }
 
     return data;

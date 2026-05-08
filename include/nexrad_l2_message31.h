@@ -1,6 +1,7 @@
 
 #include <string>
 #include <cstdint>
+#include <memory>
 
 #include "nexrad_l2_message.h"
 #include "nexrad_l2_message31_momrad.h"
@@ -10,8 +11,6 @@
 
 class NexradL2Message31 : public NexradL2Message {
     public:
-        ~NexradL2Message31();
-
         friend std::istream& operator>>(std::istream&, NexradL2Message31&);
 
         std::vector<float> get_moment_data(const std::string&) const;
@@ -68,7 +67,7 @@ class NexradL2Message31 : public NexradL2Message {
         float radial_horiz_calibration_const;
         float radial_vert_calibration_const;
 
-        std::map<std::string, NexradL2Message31MomentRadial*> moment_radials;
+        std::map<std::string, std::unique_ptr<NexradL2Message31MomentRadial>> moment_radials;
 };
 
 #endif
