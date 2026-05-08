@@ -11,15 +11,7 @@ void test_start_chunk() {
 
     ifile.open(fname);
 
-    NexradL2VolumeHeaderChunk l2c;
-
-    try {
-        l2c = NexradL2VolumeHeaderChunk::from_binary(ifile);
-    }
-    catch (std::string exc) {
-        std::cerr << "Error: " << exc << std::endl;
-        return;
-    }
+    NexradL2VolumeHeaderChunk l2c = NexradL2VolumeHeaderChunk::from_binary(ifile);
 
     std::vector<float> data = l2c.get_volume_elevation_angles();
     for (size_t i = 0 ; i < data.size(); i++) {
@@ -34,15 +26,7 @@ void test_intermediate_chunk() {
 
     ifile.open(fname);
 
-    NexradL2VolumeChunk l2c;
-
-    try {
-        l2c = NexradL2VolumeChunk::from_binary(ifile);
-    }
-    catch (std::string exc) {
-        std::cerr << "Error: " << exc << std::endl;
-        return;
-    }
+    NexradL2VolumeChunk l2c = NexradL2VolumeChunk::from_binary(ifile);
 
     std::vector<float> data = l2c.get_moment_data("ZDR");
     for (size_t i = 0 ; i < 10; i++) {
@@ -57,15 +41,7 @@ void test_end_chunk() {
 
     ifile.open(fname);
 
-    NexradL2VolumeChunk l2c;
-
-    try {
-        l2c = NexradL2VolumeChunk::from_binary(ifile);
-    }
-    catch (std::string exc) {
-        std::cerr << "Error: " << exc << std::endl;
-        return;
-    }
+    NexradL2VolumeChunk l2c = NexradL2VolumeChunk::from_binary(ifile);
 
     std::vector<float> data = l2c.get_moment_data("ZDR");
     for (size_t i = 0 ; i < 10; i++) {
@@ -75,7 +51,29 @@ void test_end_chunk() {
 }
 
 int main(int argc, char** argv) {
-    test_start_chunk();
-    test_intermediate_chunk();
-    test_end_chunk();
+    try {
+        test_start_chunk();
+    }
+    catch (std::string exc) {
+        std::cerr << "Error: " << exc << std::endl;
+        return 1;
+    }
+
+    try {
+        test_intermediate_chunk();
+    }
+    catch (std::string exc) {
+        std::cerr << "Error: " << exc << std::endl;
+        return 1;
+    }
+
+    try {
+        test_end_chunk();
+    }
+    catch (std::string exc) {
+        std::cerr << "Error: " << exc << std::endl;
+        return 1;
+    }
+
+    return 0;
 }
