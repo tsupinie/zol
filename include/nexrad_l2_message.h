@@ -4,18 +4,16 @@
 #include <vector>
 #include <map>
 #include <iostream>
+#include <memory>
 
-#include "nexrad_l2_header.h"
+#include <nexrad_l2_header.h>
 
 #ifndef __NEXRAD_L2_MESSAGE__
 #define __NEXRAD_L2_MESSAGE__
 
 class NexradL2Message {
     public:
-        NexradL2Message();
-        virtual ~NexradL2Message();
-
-        static NexradL2Message* factory(std::istream&);
+        static std::unique_ptr<NexradL2Message> factory(std::istream&);
         virtual std::string dump() = 0;
 
         virtual bool is_blank() const { return false; }
@@ -23,7 +21,7 @@ class NexradL2Message {
         uint8_t get_message_type() const { return this->header->get_message_type(); }
 
     protected:
-        NexradL2MessageHeader* header;
+        std::unique_ptr<NexradL2MessageHeader> header;
 };
 
 class NexradL2MessageDummy : public NexradL2Message {
