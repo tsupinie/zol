@@ -1,6 +1,6 @@
 
 #include <nexrad_l2_header.h>
-#include <bin_utils.h>
+#include <utils.h>
 
 #define OUT_FIELD_INLINE(x) objstr += #x " = " + std::to_string(this->x) + ", "
 

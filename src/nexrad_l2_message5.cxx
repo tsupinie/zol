@@ -1,6 +1,6 @@
 
 #include <nexrad_l2_message5.h>
-#include <bin_utils.h>
+#include <utils.h>
 #include <nexrad_internal.h>
 
 NexradL2Message5::~NexradL2Message5() {

@@ -1,6 +1,6 @@
 
 #include <nexrad_l2_message31_momrad.h>
-#include <bin_utils.h>
+#include <utils.h>
 #include <nexrad_internal.h>
 
 std::unique_ptr<NexradL2Message31MomentRadial> NexradL2Message31MomentRadial::factory(std::istream& istream) {

@@ -7,7 +7,7 @@
 #include <nexrad_l2_chunk.h>
 #include <nexrad_l2_message5.h>
 #include <nexrad_l2_message31.h>
-#include <bin_utils.h>
+#include <utils.h>
 
 
 void decompress_bz2(std::istream& instream, std::stringstream& outstream) {

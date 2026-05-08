@@ -1,6 +1,6 @@
 
 #include <nexrad_l2_message31.h>
-#include <bin_utils.h>
+#include <utils.h>
 #include <nexrad_internal.h>
 
 std::vector<float> NexradL2Message31::get_moment_data(const std::string& moment) const { 
