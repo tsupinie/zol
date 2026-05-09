@@ -26,6 +26,7 @@ class NexradL2VolumeChunk {
         NexradL2VolumeChunk(std::vector<std::unique_ptr<NexradL2Message>> messages) : messages(std::move(messages)) {};
         static NexradL2VolumeChunk from_binary(std::istream& istream);
 
+        std::vector<std::string> get_moments() const;
         std::vector<float> get_moment_data(const std::string&) const;
     private:
         std::vector<std::unique_ptr<NexradL2Message>> messages {};

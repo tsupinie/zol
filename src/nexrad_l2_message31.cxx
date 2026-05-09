@@ -3,6 +3,16 @@
 #include <utils.h>
 #include <nexrad_internal.h>
 
+std::vector<std::string> NexradL2Message31::get_moments() const {
+    std::vector<std::string> moments;
+
+    for (auto it = this->moment_radials.begin(); it != this->moment_radials.end(); ++it) {
+        moments.push_back(it->first);
+    }
+
+    return moments;
+}
+
 std::vector<float> NexradL2Message31::get_moment_data(const std::string& moment) const { 
     auto search = this->moment_radials.find(moment);
 

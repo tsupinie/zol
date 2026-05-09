@@ -132,6 +132,17 @@ NexradL2VolumeChunk NexradL2VolumeChunk::from_binary(std::istream& instream) {
     return NexradL2VolumeChunk(message_list_from_stream(instream, false));
 }
 
+std::vector<std::string> NexradL2VolumeChunk::get_moments() const {
+    // This function assumes the the set of moments is fixed across all radials in a chunk. I think this is a good assumption, but maybe not.
+    for (auto&& msg_ptr : this->messages) {
+        if (msg_ptr->get_message_type() == 31) {
+            return static_cast<NexradL2Message31*>(msg_ptr.get())->get_moments();
+        }
+    }
+
+    throw std::string("No Message 31 in this chunk (this shouldn't happen)");
+}
+
 std::vector<float> NexradL2VolumeChunk::get_moment_data(const std::string& moment) const {
     size_t n_gates = 0;
     for (auto&& msg_ptr : this->messages) {

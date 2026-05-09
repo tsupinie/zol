@@ -28,6 +28,12 @@ void test_intermediate_chunk() {
 
     NexradL2VolumeChunk l2c = NexradL2VolumeChunk::from_binary(ifile);
 
+    std::vector<std::string> moments = l2c.get_moments();
+    for (size_t i = 0 ; i < moments.size(); i++) {
+        std::cout << moments[i] << ", ";
+    }
+    std::cout << std::endl;
+
     std::vector<float> data = l2c.get_moment_data("ZDR");
     for (size_t i = 0 ; i < 10; i++) {
         std::cout << data[i] << ", ";
@@ -42,6 +48,12 @@ void test_end_chunk() {
     ifile.open(fname);
 
     NexradL2VolumeChunk l2c = NexradL2VolumeChunk::from_binary(ifile);
+
+    std::vector<std::string> moments = l2c.get_moments();
+    for (size_t i = 0 ; i < moments.size(); i++) {
+        std::cout << moments[i] << ", ";
+    }
+    std::cout << std::endl;
 
     std::vector<float> data = l2c.get_moment_data("ZDR");
     for (size_t i = 0 ; i < 10; i++) {
