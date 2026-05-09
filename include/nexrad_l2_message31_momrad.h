@@ -9,6 +9,8 @@
 
 class NexradL2Message31MomentRadial {
     public:
+        virtual ~NexradL2Message31MomentRadial() {};
+        
         static std::unique_ptr<NexradL2Message31MomentRadial> factory(std::istream&);
         virtual std::string dump() = 0;
         virtual std::vector<float> get_moment_data() const = 0;

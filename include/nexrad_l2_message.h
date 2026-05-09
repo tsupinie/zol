@@ -13,6 +13,7 @@
 
 class NexradL2Message {
     public:
+        virtual ~NexradL2Message() {};
         static std::unique_ptr<NexradL2Message> factory(std::istream&);
         virtual std::string dump() = 0;
 
