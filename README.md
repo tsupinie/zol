@@ -9,6 +9,11 @@ cmake --build build
 
 ## Use
 ```cpp
+#include <fstream>
+#include <chrono>
+
+#include <zol.h>
+
 std::ifstream ifile_header;
 ifile_header.open("data/20260507-005539-001-S");
 
