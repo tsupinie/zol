@@ -34,8 +34,8 @@ class NexradL2VolumeChunk {
     private:
         std::vector<std::unique_ptr<NexradL2Message>> messages {};
 
-        template <typename F>
-        void for_each_message_31(F&&) const;
+        template <class T, typename F>
+        void for_each_message(F&&) const;
 };
 
 #endif

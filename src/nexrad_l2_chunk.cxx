@@ -146,14 +146,14 @@ std::vector<std::string> NexradL2VolumeChunk::get_moments() const {
 std::vector<float> NexradL2VolumeChunk::get_moment_data(const std::string& moment) const {
     size_t n_gates = 0;
 
-    this->for_each_message_31([&n_gates](const NexradL2Message31& msg) {
+    this->for_each_message<NexradL2Message31>([&n_gates](const NexradL2Message31& msg) {
         n_gates += msg.get_n_gates();
     });
 
     std::vector<float> data(n_gates);
     size_t idata = 0;
 
-    this->for_each_message_31([&data, &idata, moment](const NexradL2Message31& msg) {
+    this->for_each_message<NexradL2Message31>([&data, &idata, moment](const NexradL2Message31& msg) {
         for (float dat : msg.get_moment_data(moment)) {
             data[idata++] = dat;
         }
@@ -165,7 +165,7 @@ std::vector<float> NexradL2VolumeChunk::get_moment_data(const std::string& momen
 std::vector<float> NexradL2VolumeChunk::get_radial_angles_from_north() const {
     std::vector<float> bearings;
 
-    this->for_each_message_31([&bearings](const NexradL2Message31& msg) {
+    this->for_each_message<NexradL2Message31>([&bearings](const NexradL2Message31& msg) {
         bearings.push_back(msg.get_radial_angle_from_north());
     });
 
@@ -175,18 +175,18 @@ std::vector<float> NexradL2VolumeChunk::get_radial_angles_from_north() const {
 std::vector<std::chrono::time_point<std::chrono::system_clock>> NexradL2VolumeChunk::get_radial_times() const {
     std::vector<std::chrono::time_point<std::chrono::system_clock>> times;
 
-    this->for_each_message_31([&times](const NexradL2Message31& msg) {
+    this->for_each_message<NexradL2Message31>([&times](const NexradL2Message31& msg) {
         times.push_back(msg.get_radial_time());
     });
 
     return times;
 }
 
-template <typename F>
-void NexradL2VolumeChunk::for_each_message_31(F&& func) const {
+template <class T, typename F>
+void NexradL2VolumeChunk::for_each_message(F&& func) const {
     for (auto&& msg_ptr : this->messages) {
-        if (msg_ptr->get_message_type() == 31) {
-            func(*static_cast<NexradL2Message31*>(msg_ptr.get()));
+        if (msg_ptr->get_message_type() == T::type) {
+            func(*static_cast<T*>(msg_ptr.get()));
         }
     }
 }
