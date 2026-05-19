@@ -1,6 +1,6 @@
 
-#include <utils.h>
-#include <nexrad_l2_message31_momrad.h>
+#include <zol/utils.h>
+#include <zol/nexrad_l2_message31_momrad.h>
 
 template <class T>
 T READ(std::istream& istream) {

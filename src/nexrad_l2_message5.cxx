@@ -1,7 +1,7 @@
 
-#include <nexrad_l2_message5.h>
-#include <utils.h>
-#include <nexrad_internal.h>
+#include <zol/nexrad_l2_message5.h>
+#include <zol/utils.h>
+#include <zol/nexrad_internal.h>
 
 NexradL2Message5::~NexradL2Message5() {
     for (NexradL2Message5ElevationMeta* elev : this->elevations) {

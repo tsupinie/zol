@@ -1,11 +1,11 @@
 
 #include <iostream>
 
-#include <nexrad_l2_message31.h>
-#include <nexrad_l2_message5.h>
-#include <nexrad_l2_header.h>
-#include <nexrad_internal.h>
-#include <utils.h>
+#include <zol/nexrad_l2_message31.h>
+#include <zol/nexrad_l2_message5.h>
+#include <zol/nexrad_l2_header.h>
+#include <zol/nexrad_internal.h>
+#include <zol/utils.h>
 
 
 std::unique_ptr<NexradL2Message> NexradL2Message::factory(std::istream& istream) {

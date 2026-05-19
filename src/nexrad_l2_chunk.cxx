@@ -5,10 +5,10 @@
 
 #include <bzlib.h>
 
-#include <nexrad_l2_chunk.h>
-#include <nexrad_l2_message5.h>
-#include <nexrad_l2_message31.h>
-#include <utils.h>
+#include <zol/nexrad_l2_chunk.h>
+#include <zol/nexrad_l2_message5.h>
+#include <zol/nexrad_l2_message31.h>
+#include <zol/utils.h>
 
 
 void decompress_bz2(std::istream& instream, std::stringstream& outstream) {

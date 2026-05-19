@@ -6,7 +6,7 @@
 #include <ctime>
 #include <iomanip>
 
-#include <nexrad_l2_chunk.h>
+#include <zol.h>
 
 void test_start_chunk() {
     std::ifstream ifile;

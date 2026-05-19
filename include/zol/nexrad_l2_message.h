@@ -6,7 +6,7 @@
 #include <iostream>
 #include <memory>
 
-#include <nexrad_l2_header.h>
+#include "nexrad_l2_header.h"
 
 #ifndef __NEXRAD_L2_MESSAGE__
 #define __NEXRAD_L2_MESSAGE__

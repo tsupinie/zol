@@ -1,7 +1,8 @@
 
-#include <nexrad_l2_message31.h>
-#include <utils.h>
-#include <nexrad_internal.h>
+#include <zol/nexrad_l2_message31.h>
+#include <zol/utils.h>
+#include <zol/nexrad_internal.h>
+
 #include <iostream>
 
 using namespace std::chrono_literals;
