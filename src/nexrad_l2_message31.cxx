@@ -2,6 +2,19 @@
 #include <nexrad_l2_message31.h>
 #include <utils.h>
 #include <nexrad_internal.h>
+#include <iostream>
+
+using namespace std::chrono_literals;
+
+template<typename T1, typename T2>
+using mul = std::ratio_multiply<T1, T2>;
+
+using days = std::chrono::duration<long long, mul<std::ratio<24>, std::chrono::hours::period>>;
+
+std::chrono::time_point<std::chrono::system_clock> NexradL2Message31::get_radial_time() const {
+    std::chrono::time_point<std::chrono::system_clock> epoch = std::chrono::system_clock::from_time_t(0);
+    return epoch + days(this->radial_julian_day) + std::chrono::milliseconds(this->radial_ms_since_midnight);
+}
 
 std::vector<std::string> NexradL2Message31::get_moments() const {
     std::vector<std::string> moments;

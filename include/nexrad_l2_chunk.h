@@ -2,6 +2,7 @@
 #include <vector>
 #include <sstream>
 #include <memory>
+#include <chrono>
 
 #include "nexrad_l2_message.h"
 
@@ -28,6 +29,8 @@ class NexradL2VolumeChunk {
 
         std::vector<std::string> get_moments() const;
         std::vector<float> get_moment_data(const std::string&) const;
+        std::vector<float> get_radial_angles_from_north() const;
+        std::vector<std::chrono::time_point<std::chrono::system_clock>> get_radial_times() const;
     private:
         std::vector<std::unique_ptr<NexradL2Message>> messages {};
 };

@@ -2,6 +2,7 @@
 #include <string>
 #include <cstdint>
 #include <memory>
+#include <chrono>
 
 #include "nexrad_l2_message.h"
 #include "nexrad_l2_message31_momrad.h"
@@ -16,6 +17,8 @@ class NexradL2Message31 : public NexradL2Message {
         std::vector<std::string> get_moments() const;
         std::vector<float> get_moment_data(const std::string&) const;
         size_t get_n_gates() const { return this->radial_length; }
+        float get_radial_angle_from_north() const { return this->radial_angle; }
+        std::chrono::time_point<std::chrono::system_clock> get_radial_time() const;
 
         std::string dump();
 

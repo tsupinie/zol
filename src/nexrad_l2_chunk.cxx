@@ -164,3 +164,26 @@ std::vector<float> NexradL2VolumeChunk::get_moment_data(const std::string& momen
 
     return data;
 }
+
+std::vector<float> NexradL2VolumeChunk::get_radial_angles_from_north() const {
+    std::vector<float> bearings;
+    for (auto&& msg_ptr : this->messages) {
+        if (msg_ptr-> get_message_type() == 31) {
+            bearings.push_back(static_cast<NexradL2Message31*>(msg_ptr.get())->get_radial_angle_from_north());
+        }
+    }
+
+    return bearings;
+}
+
+std::vector<std::chrono::time_point<std::chrono::system_clock>> NexradL2VolumeChunk::get_radial_times() const {
+    std::vector<std::chrono::time_point<std::chrono::system_clock>> times;
+
+    for (auto&& msg_ptr : this->messages) {
+        if (msg_ptr-> get_message_type() == 31) {
+            times.push_back(static_cast<NexradL2Message31*>(msg_ptr.get())->get_radial_time());
+        }
+    }
+
+    return times;
+}

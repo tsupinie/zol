@@ -2,6 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <chrono>
+#include <ctime>
+#include <iomanip>
 
 #include <nexrad_l2_chunk.h>
 
@@ -39,6 +42,16 @@ void test_intermediate_chunk() {
         std::cout << data[i] << ", ";
     }
     std::cout << std::endl;
+
+    std::vector<float> bearings = l2c.get_radial_angles_from_north();
+    for (size_t i = 0 ; i < 10; i++) {
+        std::cout << bearings[i] << ", ";
+    }
+    std::cout << std::endl;
+
+    std::vector<std::chrono::time_point<std::chrono::system_clock>> times = l2c.get_radial_times();
+    std::time_t first_time = std::chrono::system_clock::to_time_t(times[0]);
+    std::cout << std::put_time(std::gmtime(&first_time), "%Y-%m-%dT%H:%M:%SZ") << std::endl;
 }
 
 void test_end_chunk() {
