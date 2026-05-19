@@ -33,6 +33,9 @@ class NexradL2VolumeChunk {
         std::vector<std::chrono::time_point<std::chrono::system_clock>> get_radial_times() const;
     private:
         std::vector<std::unique_ptr<NexradL2Message>> messages {};
+
+        template <typename F>
+        void for_each_message_31(F&&) const;
 };
 
 #endif
