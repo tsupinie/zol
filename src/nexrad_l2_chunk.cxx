@@ -122,7 +122,7 @@ std::vector<float> NexradL2VolumeHeaderChunk::get_volume_elevation_angles() cons
     }
 
     if (msg == NULL) {
-        throw "No Message 5 in this chunk";
+        throw std::string("No Message 5 in this chunk");
     }
 
     return static_cast<NexradL2Message5*>(msg)->get_elevation_angles();
