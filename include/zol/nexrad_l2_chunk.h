@@ -19,6 +19,9 @@ class NexradL2VolumeHeaderChunk {
         std::vector<float> get_volume_elevation_angles() const;
     private:
         std::vector<std::unique_ptr<NexradL2Message>> messages {};
+
+        template <class T>
+        T* get_first_message() const;
 };
 
 class NexradL2VolumeChunk {
@@ -36,6 +39,9 @@ class NexradL2VolumeChunk {
 
         template <class T, typename F>
         void for_each_message(F&&) const;
+
+        template <class T>
+        T* get_first_message() const;
 };
 
 #endif

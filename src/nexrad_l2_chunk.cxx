@@ -109,23 +109,28 @@ std::vector<std::unique_ptr<NexradL2Message>> message_list_from_stream(std::istr
     return messages;
 }
 
+template <class T>
+T* get_first_message_in_list(const std::vector<std::unique_ptr<NexradL2Message>>& msg_list) {
+    for (auto&& msg_ptr : msg_list) {
+        if (msg_ptr->get_message_type() == T::type) {
+            return static_cast<T*>(msg_ptr.get());
+        }
+    }
+
+    throw std::string("No messages of type ") + std::to_string(T::type);
+}
+
 NexradL2VolumeHeaderChunk NexradL2VolumeHeaderChunk::from_binary(std::istream& instream) {
     return NexradL2VolumeHeaderChunk(message_list_from_stream(instream, true));
 }
 
 std::vector<float> NexradL2VolumeHeaderChunk::get_volume_elevation_angles() const {
-    NexradL2Message* msg = NULL;
-    for (auto&& msg_ptr : this->messages) {
-        if (msg_ptr->get_message_type() == 5) {
-            msg = msg_ptr.get();
-        }
-    }
+    return this->get_first_message<NexradL2Message5>()->get_elevation_angles();
+}
 
-    if (msg == NULL) {
-        throw std::string("No Message 5 in this chunk");
-    }
-
-    return static_cast<NexradL2Message5*>(msg)->get_elevation_angles();
+template <class T>
+T* NexradL2VolumeHeaderChunk::get_first_message() const {
+    return get_first_message_in_list<T>(this->messages);
 }
 
 NexradL2VolumeChunk NexradL2VolumeChunk::from_binary(std::istream& instream) {
@@ -134,13 +139,7 @@ NexradL2VolumeChunk NexradL2VolumeChunk::from_binary(std::istream& instream) {
 
 std::vector<std::string> NexradL2VolumeChunk::get_moments() const {
     // This function assumes the the set of moments is fixed across all radials in a chunk. I think this is a good assumption, but maybe not.
-    for (auto&& msg_ptr : this->messages) {
-        if (msg_ptr->get_message_type() == 31) {
-            return static_cast<NexradL2Message31*>(msg_ptr.get())->get_moments();
-        }
-    }
-
-    throw std::string("No Message 31 in this chunk (this shouldn't happen)");
+    return this->get_first_message<NexradL2Message31>()->get_moments();
 }
 
 std::vector<float> NexradL2VolumeChunk::get_moment_data(const std::string& moment) const {
@@ -189,4 +188,9 @@ void NexradL2VolumeChunk::for_each_message(F&& func) const {
             func(*static_cast<T*>(msg_ptr.get()));
         }
     }
+}
+
+template <class T>
+T* NexradL2VolumeChunk::get_first_message() const {
+    return get_first_message_in_list<T>(this->messages);
 }
