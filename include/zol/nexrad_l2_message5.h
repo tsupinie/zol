@@ -44,7 +44,7 @@ class NexradL2Message5ElevationMeta {
         uint16_t ebc_angle;
 };
 
-class NexradL2Message5 : public NexradL2Message {
+class NexradL2Message5 : public NexradL2MessageType<5> {
     public:
         ~NexradL2Message5();
 

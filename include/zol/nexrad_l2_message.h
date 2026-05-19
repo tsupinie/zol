@@ -15,9 +15,10 @@ class NexradL2Message {
     public:
         virtual ~NexradL2Message() {};
         static std::unique_ptr<NexradL2Message> factory(std::istream&);
-        virtual std::string dump() = 0;
+        virtual std::string dump();
 
         virtual bool is_blank() const { return false; }
+        friend std::istream& operator>>(std::istream&, NexradL2Message&);
 
         uint8_t get_message_type() const { return this->header->get_message_type(); }
 
@@ -25,23 +26,15 @@ class NexradL2Message {
         std::unique_ptr<NexradL2MessageHeader> header;
 };
 
-class NexradL2MessageDummy : public NexradL2Message {
+template <uint8_t N>
+class NexradL2MessageType : public NexradL2Message {
     public:
-        std::string dump();
-        friend std::istream& operator>>(std::istream&, NexradL2MessageDummy&);
+        static constexpr uint8_t type = N;
 };
 
-class NexradL2Message0: public NexradL2MessageDummy {
+class NexradL2Message0: public NexradL2MessageType<0> {
     public:
         bool is_blank() const { return true; }
 };
-
-class NexradL2Message2: public NexradL2MessageDummy {};
-class NexradL2Message3: public NexradL2MessageDummy {};
-class NexradL2Message8: public NexradL2MessageDummy {};
-class NexradL2Message13: public NexradL2MessageDummy {};
-class NexradL2Message15: public NexradL2MessageDummy {};
-class NexradL2Message18: public NexradL2MessageDummy {};
-class NexradL2Message32: public NexradL2MessageDummy {};
 
 #endif

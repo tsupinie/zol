@@ -10,7 +10,7 @@
 #ifndef __NEXRAD_L2_MESSAGE31__
 #define __NEXRAD_L2_MESSAGE31__
 
-class NexradL2Message31 : public NexradL2Message {
+class NexradL2Message31 : public NexradL2MessageType<31> {
     public:
         friend std::istream& operator>>(std::istream&, NexradL2Message31&);
 
